@@ -20,11 +20,3 @@ class Post
 
 end
 
-# post = Post.new("Title", "URL", 40, "item-id?77777")
-# puts post 
-# post.add_comment("COOOL!!!!!")
-# post.add_comment("YES")
-# post.add_comment("Awesome")
-# post.add_comment("Boo you suck")
-# post.comments
-

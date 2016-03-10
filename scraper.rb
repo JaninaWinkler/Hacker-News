@@ -9,7 +9,6 @@ class Scraper
 
   def self.title(doc)
     doc.search('.title a:nth-child(2)').children.inner_text
-    # doc.search('.title > a:nth-child(2)')[0].children[0].inner_text
   end
 
   def self.url(doc)
@@ -17,33 +16,23 @@ class Scraper
   end
 
   def self.points(doc)
-    # doc.search('.score').map { |points| points.inner_text }
     doc.search('.score')[0].inner_text.to_i
 
   end
 
   def self.item_id(doc)
-    doc.search('.age > a')[0].attributes["href"].value
+    doc.search('.age > a')[0].attributes["href"].value.gsub('item?id=', '').to_i
   end
-
-  # def self.item_id_comments(doc)
-  #   doc.search('.age > a').map { |id| id["href"] }
-  # end
 
   def self.comments(doc)
-    doc.search('span.comment').map { |comments| comments.inner_text }
+    doc.search('span.comment').map do |comments| 
+      Scraper.clean_up_whitespace(comments.inner_text) 
+    end
   end
 
-end
+  protected
+    def self.clean_up_whitespace(x)
+      x.gsub("\n","").gsub("-----","").gsub("  ", "")
+    end
 
-# scrape = Scraper.new(Nokogiri::HTML(open("post.html")))
-# puts "comments"
-# puts scrape.comments
-# puts "item id"
-# puts scrape.item_id_post
-# puts "points"
-# puts scrape.points
-# puts "url"
-# puts scrape.url
-# puts "title"
-# puts scrape.title
+end
